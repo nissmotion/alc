@@ -57,13 +57,6 @@
                                 Monthly: ${{ $equipment->daily_price / 100 }}
                             </div>
                         </div>
-                        <div class="-ml-px flex flex-1">
-                            <div
-                                class="relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
-
-                                Call
-                            </div>
-                        </div>
                     </div>
                 </div>
             </li>
