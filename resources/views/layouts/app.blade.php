@@ -17,7 +17,7 @@
         @stack('styles')
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased overflow-visible" id="body">
         <div>
             <main>
                 @livewire('front.navigation.main-menu')

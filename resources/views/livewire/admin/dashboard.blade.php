@@ -1,5 +1,5 @@
-<div class="p-8" x-data="{ tab: 'contractList' }">
-    <div class="sm:hidden">
+<div class="p-8" x-data="{ tab: 'equipmentList' }">
+    <div class="sm:hidden mb-6">
         <label for="tabs" class="sr-only">Select a tab</label>
         <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
         <select id="tabs" name="tabs"
