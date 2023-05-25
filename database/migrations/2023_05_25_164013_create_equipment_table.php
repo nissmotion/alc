@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
+            $table->text('additional_notes')->nullable();
+            $table->integer('daily_price');
+            $table->integer('daily_we_dump_price');
+            $table->integer('weekly_price');
+            $table->integer('monthly_price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
