@@ -1,6 +1,6 @@
 <x-modal-wide modal-name="newContractModal" no-buttons="true" height="h-auto">
     <div x-data="{ step: @entangle('step') }" x-cloak class="h-[80vh]">
-		<div class="max-w-3xl mx-auto px-4 overflow-auto">
+		<div class="max-w-3xl mx-auto px-4">
 
 			<div x-show="step === 'complete'"
                 x-transition:enter="transition duration-100"
@@ -42,14 +42,18 @@
 							</div>
 
 							<div x-show="step === 2">
-								<div class="text-lg font-bold text-gray-700 leading-tight">Pre/Post Inspection</div>
+								<div class="text-lg font-bold text-gray-700 leading-tight">Equipment Information</div>
 							</div>
 
 							<div x-show="step === 3">
-								<div class="text-lg font-bold text-gray-700 leading-tight">Pricing</div>
+								<div class="text-lg font-bold text-gray-700 leading-tight">Pre/Post Inspection</div>
 							</div>
 
 							<div x-show="step === 4">
+								<div class="text-lg font-bold text-gray-700 leading-tight">Pricing</div>
+							</div>
+
+							<div x-show="step === 5">
 								<div class="text-lg font-bold text-gray-700 leading-tight">Payment</div>
 							</div>
 						</div>
@@ -65,7 +69,7 @@
 				<!-- /Top Navigation -->
 
 				{{-- STEPS --}}
-				<div class="py-2">
+				<div class="py-2 overflow-y-scroll h-[70vh]">
                     {{-- STEP 1 --}}
 					<div x-show="step === 1" class="grid grid-cols-2"
                         x-transition:enter="transition duration-100"
@@ -157,6 +161,25 @@
                         x-transition:leave-start="transform opacity-100"
                         x-transition:leave-end="transform translate-x-48 opacity-0">
 
+                        <div class="mb-5 col-span-2 grid grid-cols-2">
+							<div class="space-y-2">
+                                <x-label for="start_date">
+                                    <span @error('start_date') class="text-red-500" @enderror>
+                                        Start *
+                                    </span>
+                                </x-label>
+                                <x-input type="date" id="start_date" name="start_date" class="w-full" wire:model="start_date"/>
+                            </div>
+							<div class="space-y-2 ml-1">
+                                <x-label for="end_date">
+                                    <span @error('end_date') class="text-red-500" @enderror>
+                                        End *
+                                    </span>
+                                </x-label>
+                                <x-input type="date" id="end_date" name="end_date" class="w-full" wire:model="end_date"/>
+                            </div>
+						</div>
+
 						<div class="mb-5 space-y-2 col-span-2">
 							<x-label for="equipment" >
                                 <span @error('equipment_id') class="text-red-500" @enderror>
@@ -210,6 +233,17 @@
                             </div>
 						</div>
 
+						<div class="mb-5 space-y-2 col-span-2">
+							<x-label for="notes" >
+                                <span @error('notes') class="text-red-500" @enderror>
+                                    Notes
+                                </span>
+                            </x-label>
+							<x-text-area id="notes" name="notes" class="w-full" wire:model="notes">
+
+                            </x-text-area>
+						</div>
+
 					</div>
 
                     {{-- STEP 3 --}}
@@ -248,10 +282,10 @@
                                 <h3 class="text-gray-700 text-xl mb-4">You must agree to continue</h3>
 							    <ul class="list-disc ml-4">
                                     <li>I agree the rental starts on
-                                        <span class="font-bold">{{ '04/02/2023' }}</span> and must be returned on
-                                        <span class="font-bold">{{ '04/09/2023' }}</span> for a
-                                        <span class="font-bold">{{ 'weekly' }}</span> rate of
-                                        <span class="font-bold">{{ '125.00' }}</span>.
+                                        <span class="font-bold">{{ \Carbon\Carbon::parse($start_date)->format('F d, Y') }}</span> and must be returned on
+                                        <span class="font-bold">{{ \Carbon\Carbon::parse($end_date)->format('F d, Y') }}</span> for a
+                                        <span class="font-bold">{{ $term }}</span> rate of
+                                        <span class="font-bold">${{ $rate }}</span>.
                                     </li>
                                     <li>
                                         I agree that if I return the rental late, that I will be charged a late fee.

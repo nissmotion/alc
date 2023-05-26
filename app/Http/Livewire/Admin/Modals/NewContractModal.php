@@ -2,15 +2,16 @@
 
 namespace App\Http\Livewire\Admin\Modals;
 
-use App\Models\Contract;
+use Carbon\Carbon;
 use Livewire\Component;
+use App\Models\Contract;
 use App\Models\Equipment;
 use Illuminate\Validation\Validator;
 
 class NewContractModal extends Component
 {
     public $newContractModal = true;
-    public $step = 1;
+    public $step = 2;
     public $agree = [];
     public $showNextButton = false;
     public $showEmailButton = false;
@@ -23,6 +24,7 @@ class NewContractModal extends Component
     private $equipment;
     public $equipmentOptions = [];
     public $selected_term;
+    public $notes;
 
     protected $listeners = ['openNewContractModal', 'refresh' => '$refresh'];
 
@@ -32,10 +34,15 @@ class NewContractModal extends Component
         $this->newContractModal = true;
     }
 
+    public function mount()
+    {
+        $this->start_date = Carbon::now()->format('Y-m-d');
+    }
+
     public function close()
     {
         $this->dispatchBrowserEvent('body-unlock');
-        $this->reset();
+        $this->resetExcept('start_date');
     }
 
     protected $rules = [
@@ -74,6 +81,8 @@ class NewContractModal extends Component
             'equipment_id' => 'required',
             'rate' => 'required',
             'term' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
         ]);
         $this->step++;
     }
@@ -88,6 +97,7 @@ class NewContractModal extends Component
             $equipment = Equipment::find($this->equipment_id);
 
             $newContract = Contract::create([
+                'equipment_id'      => $this->equipment_id,
                 'start_date'        => $this->start_date,
                 'end_date'          => $this->end_date,
                 'name'              => $this->name,
@@ -99,6 +109,7 @@ class NewContractModal extends Component
                 'phone'             => $this->phone,
                 'rate'              => $this->rate,
                 'term'              => $this->term,
+                'additional_notes'  => $this->notes,
             ]);
 
             if (!empty($newContract->email)) {
