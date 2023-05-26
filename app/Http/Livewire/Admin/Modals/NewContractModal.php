@@ -10,8 +10,8 @@ use Illuminate\Validation\Validator;
 
 class NewContractModal extends Component
 {
-    public $newContractModal = true;
-    public $step = 2;
+    public $newContractModal = false;
+    public $step = 1;
     public $agree = [];
     public $showNextButton = false;
     public $showEmailButton = false;

@@ -20,7 +20,7 @@
 						</div>
 
 						<div class="flex flex-row justify-between">
-                            <x-secondary-button @click="step = 1">
+                            <x-secondary-button wire:click="close">
                                 Close
                             </x-secondary-button>
                             <x-button wire:click="emailContract">
