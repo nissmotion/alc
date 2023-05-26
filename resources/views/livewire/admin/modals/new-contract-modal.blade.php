@@ -1,22 +1,32 @@
-<x-modal-wide modal-name="newContractModal" no-buttons="true" height="h-large">
-    <div x-data="{ step: @entangle('step') }" x-cloak>
-		<div class="max-w-3xl mx-auto px-4 py-10">
+<x-modal-wide modal-name="newContractModal" no-buttons="true" height="h-auto">
+    <div x-data="{ step: @entangle('step') }" x-cloak class="h-[80vh]">
+		<div class="max-w-3xl mx-auto px-4 pt-10 overflow-auto">
 
-			<div x-show.transition="step === 'complete'">
+			<div x-show="step === 'complete'"
+                x-transition:enter="transition duration-100"
+                x-transition:enter-start="transform -translate-x-48 opacity-0"
+                x-transition:enter-end="transform translate-x-0 opacity-100"
+                x-transition:leave="transition duration-100"
+                x-transition:leave-start="transform opacity-100"
+                x-transition:leave-end="transform translate-x-48 opacity-0">
 				<div class="bg-white rounded-lg p-10 flex items-center shadow justify-between">
 					<div>
 						<svg class="mb-4 h-20 w-20 text-green-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
 
-						<h2 class="text-2xl mb-4 text-gray-800 text-center font-bold">Registration Success</h2>
+						<h2 class="text-2xl mb-4 text-gray-800 text-center font-bold">Rental Agreement Success</h2>
 
 						<div class="text-gray-600 mb-8">
-							Thank you. We have sent you an email to demo@demo.test. Please click the link in the message to activate your account.
+							Thank you! We appreciate your business. If you would like to be emailed your agreement, please click below.
 						</div>
 
-						<button
-							@click="step = 1"
-							class="w-40 block mx-auto focus:outline-none py-2 px-5 rounded-lg shadow-sm text-center text-gray-600 bg-white hover:bg-gray-100 font-medium border"
-						>Back to home</button>
+						<div class="flex flex-row justify-between">
+                            <x-secondary-button @click="step = 1">
+                                Close
+                            </x-secondary-button>
+                            <x-button wire:click="emailContract">
+                                Email Me
+                            </x-button>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -24,7 +34,7 @@
 			<div x-show.transition="step != 'complete'">
 				<!-- Top Navigation -->
 				<div class="border-b-2 py-4">
-					<div class="uppercase tracking-wide text-xs font-bold text-gray-500 mb-1 leading-tight" x-text="`Step: ${step} of 3`"></div>
+					<div class="uppercase tracking-wide text-xs font-bold text-gray-500 mb-1 leading-tight" x-text="`Step: ${step} of 5`"></div>
 					<div class="flex flex-col md:flex-row md:items-center md:justify-between">
 						<div class="flex-1">
 							<div x-show="step === 1">
@@ -32,19 +42,23 @@
 							</div>
 
 							<div x-show="step === 2">
-								<div class="text-lg font-bold text-gray-700 leading-tight">Your Password</div>
+								<div class="text-lg font-bold text-gray-700 leading-tight">Pre/Post Inspection</div>
 							</div>
 
 							<div x-show="step === 3">
-								<div class="text-lg font-bold text-gray-700 leading-tight">Tell me about yourself</div>
+								<div class="text-lg font-bold text-gray-700 leading-tight">Pricing</div>
+							</div>
+
+							<div x-show="step === 4">
+								<div class="text-lg font-bold text-gray-700 leading-tight">Payment</div>
 							</div>
 						</div>
 
 						<div class="flex items-center md:w-64">
 							<div class="w-full bg-white rounded-full mr-2">
-								<div class="rounded-full bg-green-500 text-xs leading-none h-2 text-center text-white" :style="'width: '+ parseInt(step / 3 * 100) +'%'"></div>
+								<div class="rounded-full bg-green-500 text-xs leading-none h-2 text-center text-white" :style="'width: '+ parseInt(step / 5 * 100) +'%'"></div>
 							</div>
-							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 3 * 100) +'%'"></div>
+							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 5 * 100) +'%'"></div>
 						</div>
 					</div>
 				</div>
@@ -63,7 +77,7 @@
 
 						<div class="mb-5 space-y-2 col-span-2">
 							<x-label for="equipment">Equipment</x-label>
-							<x-select id="equipment" name="equipment" class="w-full">
+							<x-select id="equipment" name="equipment" class="w-full" wire:model="equipment_id">
                                 <option style="display: none;">Please select...</option>
                                 @forelse($rentals as $rental)
                                     <option value="{{ $rental->getKey() }}">{{ $rental->description }}</option>
@@ -75,43 +89,43 @@
 
 						<div class="mb-5 space-y-2 col-span-2">
 							<x-label for="name">Name</x-label>
-							<x-input type="text" id="name" name="name" class="w-full"
+							<x-input type="text" id="name" name="name" class="w-full" wire:model="name"
 								placeholder="Customer Name..."/>
 						</div>
 
                         <div class="mb-5 space-y-2">
 							<x-label for="phone">Phone</x-label>
-							<x-input type="number" id="phone" name="phone" class="w-full"
+							<x-input type="number" id="phone" name="phone" class="w-full" wire:model="phone"
 								placeholder="Phone number..."/>
 						</div>
 
 						<div class="mb-5 space-y-2 pl-1">
 							<x-label for="email">Email</x-label>
-							<x-input type="email" name="email" class="w-full"
+							<x-input type="email" name="email" class="w-full" wire:model="email"
 								placeholder="Email address..."/>
 						</div>
 
 						<div class="mb-5 space-y-2 col-span-2">
 							<x-label for="address">Address</x-label>
-							<x-input type="text" id="address" name="address" class="w-full"
+							<x-input type="text" id="address" name="address" class="w-full" wire:model="address"
 								placeholder="Address..."/>
 						</div>
 
 						<div class="mb-5 space-y-2">
 							<x-label for="city">City</x-label>
-							<x-input type="text" id="city" class="w-full"
+							<x-input type="text" id="city" class="w-full" wire:model="city"
 								placeholder="City..."/>
 						</div>
 
                         <div class="mb-5 grid grid-cols-3 pl-1">
                             <div class="mb-5 space-y-2">
                                 <x-label for="state">State</x-label>
-                                <x-input type="text" id="state" name="state" class="w-full"
+                                <x-input type="text" id="state" name="state" class="w-full" wire:model="state"
                                     placeholder="ST..."/>
                             </div>
                             <div class="mb-5 space-y-2 col-span-2 pl-1">
                                 <x-label for="zip">Zip</x-label>
-                                <x-input type="text" id="zip" name="zip" class="w-full"
+                                <x-input type="text" id="zip" name="zip" class="w-full" wire:model="zip"
                                     placeholder="Zip..."/>
                             </div>
                         </div>
@@ -128,76 +142,71 @@
                         x-transition:leave-end="transform translate-x-48 opacity-0">
 
 						<div class="mb-5">
-							<label for="password" class="font-bold mb-1 text-gray-700 block">Set up password</label>
-							<div class="text-gray-600 mt-2 mb-4">
-								Please create a secure password including the following criteria below.
-
-								<ul class="list-disc text-sm ml-4 mt-2">
-									<li>lowercase letters</li>
-									<li>numbers</li>
-									<li>capital letters</li>
-									<li>special characters</li>
-								</ul>
-							</div>
-
-							<div class="relative">
-								<input
-									:type="togglePassword ? 'text' : 'password'"
-									@keydown="checkPasswordStrength()"
-									x-model="password"
-									class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-									placeholder="Your strong password...">
-
-								<div class="absolute right-0 bottom-0 top-0 px-3 py-3 cursor-pointer"
-									@click="togglePassword = !togglePassword"
-								>
-									<svg :class="{'hidden': !togglePassword, 'block': togglePassword }" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current text-gray-500" viewBox="0 0 24 24"><path d="M12 19c.946 0 1.81-.103 2.598-.281l-1.757-1.757C12.568 16.983 12.291 17 12 17c-5.351 0-7.424-3.846-7.926-5 .204-.47.674-1.381 1.508-2.297L4.184 8.305c-1.538 1.667-2.121 3.346-2.132 3.379-.069.205-.069.428 0 .633C2.073 12.383 4.367 19 12 19zM12 5c-1.837 0-3.346.396-4.604.981L3.707 2.293 2.293 3.707l18 18 1.414-1.414-3.319-3.319c2.614-1.951 3.547-4.615 3.561-4.657.069-.205.069-.428 0-.633C21.927 11.617 19.633 5 12 5zM16.972 15.558l-2.28-2.28C14.882 12.888 15 12.459 15 12c0-1.641-1.359-3-3-3-.459 0-.888.118-1.277.309L8.915 7.501C9.796 7.193 10.814 7 12 7c5.351 0 7.424 3.846 7.926 5C19.624 12.692 18.76 14.342 16.972 15.558z"/></svg>
-
-									<svg :class="{'hidden': togglePassword, 'block': !togglePassword }" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current text-gray-500" viewBox="0 0 24 24"><path d="M12,9c-1.642,0-3,1.359-3,3c0,1.642,1.358,3,3,3c1.641,0,3-1.358,3-3C15,10.359,13.641,9,12,9z"/><path d="M12,5c-7.633,0-9.927,6.617-9.948,6.684L1.946,12l0.105,0.316C2.073,12.383,4.367,19,12,19s9.927-6.617,9.948-6.684 L22.054,12l-0.105-0.316C21.927,11.617,19.633,5,12,5z M12,17c-5.351,0-7.424-3.846-7.926-5C4.578,10.842,6.652,7,12,7 c5.351,0,7.424,3.846,7.926,5C19.422,13.158,17.348,17,12,17z"/></svg>
-								</div>
-							</div>
-
-							<div class="flex items-center mt-4 h-3">
-								<div class="w-2/3 flex justify-between h-2">
-									<div :class="{ 'bg-red-400': passwordStrengthText == 'Too weak' ||  passwordStrengthText == 'Could be stronger' || passwordStrengthText == 'Strong password' }" class="h-2 rounded-full mr-1 w-1/3 bg-gray-300"></div>
-									<div :class="{ 'bg-orange-400': passwordStrengthText == 'Could be stronger' || passwordStrengthText == 'Strong password' }" class="h-2 rounded-full mr-1 w-1/3 bg-gray-300"></div>
-									<div :class="{ 'bg-green-400': passwordStrengthText == 'Strong password' }" class="h-2 rounded-full w-1/3 bg-gray-300"></div>
-								</div>
-								<div x-text="passwordStrengthText" class="text-gray-500 font-medium text-sm ml-3 leading-none"></div>
-							</div>
-
-							<p class="mt-5 text-gray-600">Inspired from dribbble shot: Exploration for a password strength meter by <a href="https://dribbble.com/OvertonGraphics" class="text-blue-500">Josh Overton</a>.</p>
+                            <div>
+                                <h3 class="text-gray-700 text-xl mb-4">You must agree to continue</h3>
+							    <p>I agree that I have inspected the rental and acknoledge that the rental is in working order. Any defects and damage will be reported and discussed before I take possesion of the rental. I also agree that a post-rental inspection will be performed by us and I will responsible for any and all damages. Damages may include but not limited to: Tires, Tailgate, Hydraulic system, Electronics, etc.
+                                </p>
+                                <div class="space-y-6 w-full text-center my-5">
+                                    <x-label class="text-xl" for="step2Agree">I Agree</x-label>
+                                    <x-checkbox id="step2Agree" name="step2Agree" class="h-8 w-8" wire:model="agree.2"/>
+                                </div>
+                            </div>
 						</div>
 
 					</div>
-					<div x-show.transition.in="step === 3">
+
+                    {{-- STEP 3 --}}
+					<div x-show="step === 3"
+                        x-transition:enter="transition duration-100"
+                        x-transition:enter-start="transform -translate-x-48 opacity-0"
+                        x-transition:enter-end="transform translate-x-0 opacity-100"
+                        x-transition:leave="transition duration-100"
+                        x-transition:leave-start="transform opacity-100"
+                        x-transition:leave-end="transform translate-x-48 opacity-0">
 						<div class="mb-5">
-							<label for="email" class="font-bold mb-1 text-gray-700 block">Gender</label>
-
-							<div class="flex">
-								<label
-									class="flex justify-start items-center text-truncate rounded-lg bg-white pl-4 pr-6 py-3 shadow-sm mr-4">
-									<div class="text-teal-600 mr-3">
-										<input type="radio" x-model="gender" value="Male" class="form-radio focus:outline-none focus:shadow-outline" />
-									</div>
-									<div class="select-none text-gray-700">Male</div>
-								</label>
-
-								<label
-									class="flex justify-start items-center text-truncate rounded-lg bg-white pl-4 pr-6 py-3 shadow-sm">
-									<div class="text-teal-600 mr-3">
-										<input type="radio" x-model="gender" value="Female" class="form-radio focus:outline-none focus:shadow-outline" />
-									</div>
-									<div class="select-none text-gray-700">Female</div>
-								</label>
-							</div>
+                            <div>
+                                <h3 class="text-gray-700 text-xl mb-4">You must agree to continue</h3>
+							    <ul class="list-disc ml-4">
+                                    <li>I agree the rental starts on
+                                        <span class="font-bold">{{ '04/02/2023' }}</span> and must be returned on
+                                        <span class="font-bold">{{ '04/09/2023' }}</span> for a
+                                        <span class="font-bold">{{ 'weekly' }}</span> rate of
+                                        <span class="font-bold">{{ '125.00' }}</span>.
+                                    </li>
+                                    <li>
+                                        I agree that if I return the rental late, that I will be charged a late fee.
+                                    </li>
+                                    <li>
+                                        I agree that if the rental is not empty upon return, that I will be charged dump/cleaning fees.
+                                    </li>
+                                </ul>
+                                <div class="space-y-6 w-full text-center my-5">
+                                    <x-label class="text-xl" for="step3Agree">I Agree</x-label>
+                                    <x-checkbox id="step3Agree" name="step3Agree" class="h-8 w-8" wire:model="agree.3"/>
+                                </div>
+                            </div>
 						</div>
+					</div>
 
+                    {{-- STEP 4 --}}
+					<div x-show="step === 4"
+                        x-transition:enter="transition duration-100"
+                        x-transition:enter-start="transform -translate-x-48 opacity-0"
+                        x-transition:enter-end="transform translate-x-0 opacity-100"
+                        x-transition:leave="transition duration-100"
+                        x-transition:leave-start="transform opacity-100"
+                        x-transition:leave-end="transform translate-x-48 opacity-0">
 						<div class="mb-5">
-							<label for="profession" class="font-bold mb-1 text-gray-700 block">Profession</label>
-							<input type="profession"
-								class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-								placeholder="eg. Web Developer">
+                            <div>
+                                <h3 class="text-gray-700 text-xl mb-4">You must agree to continue</h3>
+							    <p>
+                                    I agree that I may be charged for any additional fees per the previously agreed upon pages when returning the rental. We usually require a deposit of half the intital total upfront and the remainder (including all fees and surcharges) is due immediately upon return of the rental.
+                                </p>
+                                <div class="space-y-6 w-full text-center my-5">
+                                    <x-label class="text-xl" for="step4Agree">I Agree</x-label>
+                                    <x-checkbox id="step4Agree" name="step4Agree" class="h-8 w-8" wire:model="agree.4"/>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -205,7 +214,7 @@
 		</div>
 
 		<!-- Bottom Navigation -->
-		<div class="fixed bottom-0 left-0 right-0 py-5 bg-white shadow-md" x-show="step != 'complete'">
+		<div class="fixed bottom-0 left-0 right-0 py-5 bg-white">
 			<div class="max-w-3xl mx-auto px-4">
 				<div class="flex justify-between">
 					<div class="w-1/2">
@@ -219,13 +228,12 @@
                             Start Contract
                         </x-button>
 
-						<x-button x-show="step < 3 && step > 1" @click="step++">
-                            Next
-                        </x-button>
+                        @if($showNextButton)
+                            <x-button @click="step === 4 ? step = 'complete' : step++">
+                                {{ $step === 4 ? 'Complete' : 'Next' }}
+                            </x-button>
+                        @endif
 
-						<x-button @click="step = 'complete'" x-show="step === 3">
-                            Complete
-                        </x-button>
 					</div>
 				</div>
 			</div>
