@@ -19,7 +19,7 @@
             <!-- This element is to trick the browser into centering the modal contents. -->
             <span class="hidden xl:inline-block xl:align-middle xl:h-screen" aria-hidden="true">&#8203;</span>
 
-            <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-y-auto shadow-xl transform transition-all sm:my-8 sm:align-middle {{ !$width ? 'sm:max-w-7xl w-full' : $width }}  {{ !$height ? 'h-3/4screen' : $height }} sm:p-6 overflow-x-hidden"
+            <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-y-auto shadow-xl transform transition-all sm:my-8 sm:align-middle {{ !$width ? 'sm:max-w-7xl w-full' : $width }} {{ !$height ? 'h-3/4screen' : $height }} sm:p-6 overflow-x-hidden"
                 aria-modal="true"
                 x-show="modal" x-transition id="modal" name="modal">
                 {{-- CONTENT STARTS HERE --}}

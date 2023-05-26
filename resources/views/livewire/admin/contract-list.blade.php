@@ -6,7 +6,7 @@
                 <h3 class="text-base font-semibold leading-6 text-gray-900">Contract List</h3>
             </div>
             <div class="ml-4 mt-2 flex-shrink-0">
-                <x-button>
+                <x-button wire:click="$emitTo('admin.modals.new-contract-modal', 'openNewContractModal')">
                     New Contract
                 </x-button>
             </div>
@@ -65,5 +65,5 @@
         <!-- More people... -->
     </ul>
 
-
+    @livewire('admin.modals.new-contract-modal')
 </div>
