@@ -197,7 +197,7 @@
 
             <div class="border-t border-gray-200 py-6 px-4 space-y-6">
                 <div class="flow-root">
-                    <a href="#our-promise" class="-m-2 p-2 block font-medium text-gray-900" @click="mobileMenu = false">Our Promise</a>
+                    <a href="{{ route('dashboard') }}/#our-promise" class="-m-2 p-2 block font-medium text-gray-900" @click="mobileMenu = false">Our Promise</a>
                 </div>
 
                 {{-- <div class="flow-root">
@@ -208,6 +208,8 @@
             <div class="border-t border-gray-200 py-6 px-4 space-y-6">
                 <div class="flow-root">
                     @if (Auth::check())
+                        <a href="{{ route('livewire.dashboard') }}" class="-m-2 p-2 block font-medium text-gray-900">Contracts</a>
+
                         <form method="POST" name="logout" action="{{ route('logout') }}">
                             @csrf
                             <button class="-m-2 p-2 block font-medium text-gray-900" id="desktop_sign_out">
@@ -482,6 +484,7 @@
                                 </a>
                                 <div class="flex-1 flex items-center justify-end">
                                     @if(Auth::check())
+                                        <a href="{{ route('livewire.dashboard') }}" class="mr-8 hidden text-sm font-medium text-white lg:block"> Contracts </a>
                                         <form method="POST" name="logout" action="{{ route('logout') }}">
                                             @csrf
                                             <button class="hidden text-sm font-medium text-white lg:block" id="desktop_sign_out">
