@@ -26,5 +26,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
     Route::get('/contracts', Dashboard::class)->name('livewire.dashboard');
 });
