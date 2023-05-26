@@ -1,6 +1,6 @@
 <x-modal-wide modal-name="newContractModal" no-buttons="true" height="h-auto">
     <div x-data="{ step: @entangle('step') }" x-cloak class="h-[80vh]">
-		<div class="max-w-3xl mx-auto px-4 pt-10 overflow-auto">
+		<div class="max-w-3xl mx-auto px-4 overflow-auto">
 
 			<div x-show="step === 'complete'"
                 x-transition:enter="transition duration-100"
@@ -56,16 +56,16 @@
 
 						<div class="flex items-center md:w-64">
 							<div class="w-full bg-white rounded-full mr-2">
-								<div class="rounded-full bg-green-500 text-xs leading-none h-2 text-center text-white" :style="'width: '+ parseInt(step / 5 * 100) +'%'"></div>
+								<div class="rounded-full bg-green-500 text-xs leading-none h-2 text-center text-white" :style="'width: '+ parseInt(step / 6 * 100) +'%'"></div>
 							</div>
-							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 5 * 100) +'%'"></div>
+							<div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 6 * 100) +'%'"></div>
 						</div>
 					</div>
 				</div>
 				<!-- /Top Navigation -->
 
 				{{-- STEPS --}}
-				<div class="py-10">
+				<div class="py-2">
                     {{-- STEP 1 --}}
 					<div x-show="step === 1" class="grid grid-cols-2"
                         x-transition:enter="transition duration-100"
@@ -76,7 +76,93 @@
                         x-transition:leave-end="transform translate-x-48 opacity-0">
 
 						<div class="mb-5 space-y-2 col-span-2">
-							<x-label for="equipment">Equipment</x-label>
+							<x-label for="name">
+                                <span @error('name') class="text-red-500" @enderror>
+                                    Name *
+                                </span>
+                            </x-label>
+							<x-input type="text" id="name" name="name" class="w-full" wire:model="name"
+								placeholder="Customer Name..."/>
+						</div>
+
+                        <div class="mb-5 space-y-2">
+							<x-label for="phone">
+                                <span @error('phone') class="text-red-500" @enderror>
+                                    Phone *
+                                </span>
+                            </x-label>
+							<x-input type="number" id="phone" name="phone" class="w-full" wire:model="phone"
+								placeholder="Phone number..."/>
+						</div>
+
+						<div class="mb-5 space-y-2 pl-1">
+							<x-label for="email">
+                                <span @error('email') class="text-red-500" @enderror>
+                                    Email
+                                </span>
+                            </x-label>
+							<x-input type="email" name="email" class="w-full" wire:model="email"
+								placeholder="Email address..."/>
+						</div>
+
+						<div class="mb-5 space-y-2 col-span-2">
+							<x-label for="address">
+                                <span @error('address') class="text-red-500" @enderror>
+                                    Address *
+                                </span>
+                            </x-label>
+							<x-input type="text" id="address" name="address" class="w-full" wire:model="address"
+								placeholder="Address..."/>
+						</div>
+
+						<div class="mb-5 space-y-2">
+							<x-label for="city">
+                                <span @error('city') class="text-red-500" @enderror>
+                                    City *
+                                </span>
+                            </x-label>
+							<x-input type="text" id="city" class="w-full" wire:model="city"
+								placeholder="City..."/>
+						</div>
+
+                        <div class="mb-5 grid grid-cols-3 pl-1">
+                            <div class="mb-5 space-y-2">
+                                <x-label for="state">
+                                    <span @error('state') class="text-red-500" @enderror>
+                                        State *
+                                    </span>
+                                </x-label>
+                                <x-input type="text" id="state" name="state" class="w-full" wire:model="state"
+                                    placeholder="ST..."/>
+                            </div>
+                            <div class="mb-5 space-y-2 col-span-2 pl-1">
+                                <x-label for="zip">
+                                    <span @error('zip') class="text-red-500" @enderror>
+                                        Zip *
+                                    </span>
+                                </x-label>
+                                <x-input type="text" id="zip" name="zip" class="w-full" wire:model="zip"
+                                    placeholder="Zip..."/>
+                            </div>
+                        </div>
+
+					</div>
+
+                    {{-- STEP 2 --}}
+					<div x-show="step === 2" class="grid grid-cols-2"
+                        x-transition:enter="transition duration-100"
+                        x-transition:enter-start="transform -translate-x-48 opacity-0"
+                        x-transition:enter-end="transform translate-x-0 opacity-100"
+                        x-transition:leave="transition duration-100"
+                        x-transition:leave-start="transform opacity-100"
+                        x-transition:leave-end="transform translate-x-48 opacity-0">
+
+						<div class="mb-5 space-y-2 col-span-2">
+							<x-label for="equipment" >
+                                <span @error('equipment_id') class="text-red-500" @enderror>
+                                    Equipment *
+                                </span>
+                            </x-label>
 							<x-select id="equipment" name="equipment" class="w-full" wire:model="equipment_id">
                                 <option style="display: none;">Please select...</option>
                                 @forelse($rentals as $rental)
@@ -88,52 +174,46 @@
 						</div>
 
 						<div class="mb-5 space-y-2 col-span-2">
-							<x-label for="name">Name</x-label>
-							<x-input type="text" id="name" name="name" class="w-full" wire:model="name"
-								placeholder="Customer Name..."/>
+							<x-label for="equipment" >
+                                <span @error('selected_term') class="text-red-500" @enderror>
+                                    Preset
+                                </span>
+                            </x-label>
+							<x-select id="equipment" name="equipment" class="w-full" wire:model="selected_term">
+                                <option style="display: none;">Please select...</option>
+                                @forelse($equipmentOptions as $key => $value)
+                                    <option value="{{ $key }}">{{ $key . ' - $' . $value }}</option>
+                                @empty
+                                    <option>Select equipment first!</option>
+                                @endforelse
+                            </x-select>
 						</div>
 
-                        <div class="mb-5 space-y-2">
-							<x-label for="phone">Phone</x-label>
-							<x-input type="number" id="phone" name="phone" class="w-full" wire:model="phone"
-								placeholder="Phone number..."/>
-						</div>
-
-						<div class="mb-5 space-y-2 pl-1">
-							<x-label for="email">Email</x-label>
-							<x-input type="email" name="email" class="w-full" wire:model="email"
-								placeholder="Email address..."/>
-						</div>
-
-						<div class="mb-5 space-y-2 col-span-2">
-							<x-label for="address">Address</x-label>
-							<x-input type="text" id="address" name="address" class="w-full" wire:model="address"
-								placeholder="Address..."/>
-						</div>
-
-						<div class="mb-5 space-y-2">
-							<x-label for="city">City</x-label>
-							<x-input type="text" id="city" class="w-full" wire:model="city"
-								placeholder="City..."/>
-						</div>
-
-                        <div class="mb-5 grid grid-cols-3 pl-1">
-                            <div class="mb-5 space-y-2">
-                                <x-label for="state">State</x-label>
-                                <x-input type="text" id="state" name="state" class="w-full" wire:model="state"
-                                    placeholder="ST..."/>
+						<div class="mb-5 col-span-2 grid grid-cols-2">
+							<div class="space-y-2">
+                                <x-label for="rate">
+                                    <span @error('rate') class="text-red-500" @enderror>
+                                        Rate *
+                                    </span>
+                                </x-label>
+                                <x-input type="text" id="rate" name="rate" class="w-full" wire:model="rate"
+                                    placeholder="Price per..."/>
                             </div>
-                            <div class="mb-5 space-y-2 col-span-2 pl-1">
-                                <x-label for="zip">Zip</x-label>
-                                <x-input type="text" id="zip" name="zip" class="w-full" wire:model="zip"
-                                    placeholder="Zip..."/>
+							<div class="space-y-2 ml-1">
+                                <x-label for="term">
+                                    <span @error('term') class="text-red-500" @enderror>
+                                        Term *
+                                    </span>
+                                </x-label>
+                                <x-input type="text" id="term" name="term" class="w-full" wire:model="term"
+                                    placeholder="Term..."/>
                             </div>
-                        </div>
+						</div>
 
 					</div>
 
-                    {{-- STEP 2 --}}
-					<div x-show="step === 2"
+                    {{-- STEP 3 --}}
+					<div x-show="step === 3"
                         x-transition:enter="transition duration-100"
                         x-transition:enter-start="transform -translate-x-48 opacity-0"
                         x-transition:enter-end="transform translate-x-0 opacity-100"
@@ -155,8 +235,8 @@
 
 					</div>
 
-                    {{-- STEP 3 --}}
-					<div x-show="step === 3"
+                    {{-- STEP 4 --}}
+					<div x-show="step === 4"
                         x-transition:enter="transition duration-100"
                         x-transition:enter-start="transform -translate-x-48 opacity-0"
                         x-transition:enter-end="transform translate-x-0 opacity-100"
@@ -188,8 +268,8 @@
 						</div>
 					</div>
 
-                    {{-- STEP 4 --}}
-					<div x-show="step === 4"
+                    {{-- STEP 5 --}}
+					<div x-show="step === 5"
                         x-transition:enter="transition duration-100"
                         x-transition:enter-start="transform -translate-x-48 opacity-0"
                         x-transition:enter-end="transform translate-x-0 opacity-100"
@@ -218,19 +298,23 @@
 			<div class="max-w-3xl mx-auto px-4">
 				<div class="flex justify-between">
 					<div class="w-1/2">
-						<x-secondary-button x-show="step > 1" @click="step--">
+						<x-secondary-button x-show="step > 1" @click="step !== 3 ? step-- : ''">
                             Previous
                         </x-secondary-button>
 					</div>
 
 					<div class="w-1/2 text-right">
-						<x-button x-show="step === 1" @click="step++">
+						<x-button x-show="step === 1" wire:click="startEquipmentSelect" class="whitespace-nowrap">
+                            Select Equipment
+                        </x-button>
+
+						<x-button x-show="step === 2" wire:click="startContract" class="whitespace-nowrap">
                             Start Contract
                         </x-button>
 
                         @if($showNextButton)
-                            <x-button @click="step === 4 ? step = 'complete' : step++">
-                                {{ $step === 4 ? 'Complete' : 'Next' }}
+                            <x-button @click="step === 5 ? step = 'complete' : step++">
+                                {{ $step === 5 ? 'Complete' : 'Next' }}
                             </x-button>
                         @endif
 
