@@ -258,7 +258,7 @@
 						<div class="mb-5">
                             <div>
                                 <h3 class="text-gray-700 text-xl mb-4">You must agree to continue</h3>
-							    <p>I agree that I have inspected the rental and acknoledge that the rental is in working order. Any defects and damage will be reported and discussed before I take possesion of the rental. I also agree that a post-rental inspection will be performed by us and I will responsible for any and all damages. Damages may include but not limited to: Tires, Tailgate, Hydraulic system, Electronics, etc.
+							    <p>I agree that I have inspected the rental and acknowledge that the rental is in working order. Any defects and damage will be reported and discussed before I take possesion of the rental. I also agree that a post-rental inspection will be performed by us and I will be responsible for any and all damages. Damages may include but are not limited to: Tires, Tailgate, Hydraulic system, Electronics, etc.
                                 </p>
                                 <div class="space-y-6 w-full text-center my-5">
                                     <x-label class="text-xl" for="step2Agree">I Agree</x-label>
