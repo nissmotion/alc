@@ -243,7 +243,7 @@
                                 <!-- Logo (lg+) -->
                                 <div class="hidden lg:flex-1 lg:flex lg:items-center">
                                     <a href="{{ route('welcome') }}">
-                                        <span class="sr-only">ALLENS LAWN CARE</span>
+                                        <span class="sr-only">ALLENS LAWNCARE AND LANDSCAPING LLC.</span>
                                         <x-app-mark class="h-14 w-auto text-white" />
                                     </a>
                                 </div>
@@ -478,7 +478,7 @@
                                 </div>
 
                                 <a href="#" class="lg:hidden">
-                                    <span class="sr-only">ALLENS LAWN CARE</span>
+                                    <span class="sr-only">ALLENS LAWNCARE AND LANDSCAPING LLC.</span>
 
                                     <x-app-mark class="h-8 text-white" />
                                 </a>
