@@ -503,7 +503,7 @@
         </header>
         @if(!Auth::check() && request()->route()->getName() != 'login')
             <div class="relative max-w-3xl mx-auto py-32 px-6 flex flex-col items-center text-center sm:py-64 lg:px-0">
-                <h1 class="text-4xl font-extrabold tracking-tight text-white lg:text-6xl">Allen's Lawncare & Landscaping Services</h1>
+                <h1 class="text-4xl font-extrabold tracking-tight text-white lg:text-6xl">Allen's Lawncare & Landscaping LLC.</h1>
                 <p class="mt-4 text-xl text-white">Full service lawncare and landscaping company. Residential and commercial. We specialize in hardscapes and have over 20 years experience</p>
                 <a href="https://www.facebook.com/Allenslawncare21" target="_blank" class="mt-4 text-lg text-white hover:text-blue-500 drop-shadow-md shadow-blue-200 hover:font-medium">
                     #makeyouryardlookgreatagain

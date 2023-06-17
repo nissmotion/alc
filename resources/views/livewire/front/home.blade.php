@@ -158,7 +158,7 @@
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="border-t border-gray-800 py-4 flex flex-row justify-between">
-                <div class="text-sm text-gray-400">Copyright &copy; {{ \Carbon\Carbon::now()->format('Y') }} Allen's Lawncare & Landscaping.</div>
+                <div class="text-sm text-gray-400">Copyright &copy; {{ \Carbon\Carbon::now()->format('Y') }} Allen's Lawncare & Landscaping LLC.</div>
                 <div class="text-xs text-gray-400">Site designed and hosted by <a href="https://kevinhood.dev" target="_blank" class="hover:text-orange-400 hover:underline">KevDev.</a></div>
             </div>
         </div>
